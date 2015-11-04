@@ -1,5 +1,20 @@
 CREATE DATABASE IF NOT EXISTS `realty_agency`;
-CREATE TABLE IF NOT EXISTS `person` (
+DROP TABLE IF EXISTS`commission_realtors`;
+DROP TABLE IF EXISTS `subject_req`;
+DROP TABLE IF EXISTS `deal`;
+DROP TABLE IF EXISTS `request`;
+DROP TABLE IF EXISTS `realtor`;
+DROP TABLE IF EXISTS `type_request`;
+DROP TABLE IF EXISTS `rooms`;
+DROP TABLE IF EXISTS `housing_characteristics`;
+DROP TABLE IF EXISTS `address`;
+DROP TABLE IF EXISTS `station_metro`;
+DROP TABLE IF EXISTS `district`;
+DROP TABLE IF EXISTS `town_region`;
+DROP TABLE IF EXISTS `type_housing`;
+DROP TABLE IF EXISTS `group_house_type`;
+DROP TABLE IF EXISTS `person`;
+CREATE TABLE `person` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id человека',
   `last_name` varchar(50) NOT NULL COMMENT 'Фамилия',
   `first_name` varchar(50) NOT NULL COMMENT 'Имя',
@@ -12,25 +27,25 @@ CREATE TABLE IF NOT EXISTS `person` (
   PRIMARY KEY (`id`)
 ) DEFAULT CHARSET=utf8 COMMENT='Хранит информацию о человеке (клиенте, риэлторе)';
 
-CREATE TABLE IF NOT EXISTS `group_house_type` (
+CREATE TABLE `group_house_type` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id типа дома',
   `group_house_type` varchar(100) NOT NULL COMMENT 'Наименование группы типов домов',
   PRIMARY KEY (`id`)
 ) DEFAULT CHARSET=utf8 COMMENT='Хранит информацию о типе дома';
 
-CREATE TABLE IF NOT EXISTS `type_housing` (
+CREATE TABLE `type_housing` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id типа жилья',
   `type_housing` varchar(100) NOT NULL COMMENT 'Наименование типов жилья',
   PRIMARY KEY (`id`)
 ) DEFAULT CHARSET=utf8 COMMENT='Хранит информацию о типе жилья';
 
-CREATE TABLE IF NOT EXISTS `town_region` (
+CREATE TABLE `town_region` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id города/области',
   `town_region` varchar(100) NOT NULL COMMENT 'Название городов/областей',
   PRIMARY KEY (`id`)
 ) DEFAULT CHARSET=utf8 COMMENT='Хранит информацию о городах/областях';
 
-CREATE TABLE IF NOT EXISTS `district` (
+CREATE TABLE `district` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id района',
   `district` varchar(100) NOT NULL COMMENT 'Название района',
   `id_town_region` int(10) unsigned NOT NULL COMMENT 'FK города/области',
@@ -38,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `district` (
   FOREIGN KEY (`id_town_region`) REFERENCES `town_region`(`id`)
 ) DEFAULT CHARSET=utf8 COMMENT='Хранит информацию о районах городов/областей';
 
-CREATE TABLE IF NOT EXISTS `station_metro` (
+CREATE TABLE `station_metro` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id станции метро',
   `station` varchar(100) NOT NULL COMMENT 'Название станции метро',
   `id_district` int(10) unsigned NOT NULL COMMENT 'FK района',
@@ -46,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `station_metro` (
   FOREIGN KEY (`id_district`) REFERENCES `district`(`id`)
 ) DEFAULT CHARSET=utf8 COMMENT='Хранит информацию о станциях метро, относящихся к району';
 
-CREATE TABLE IF NOT EXISTS `address` (
+CREATE TABLE `address` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id адреса',
   `id_district` int(10) unsigned NOT NULL COMMENT 'FK района',
   `street` varchar(100) NOT NULL COMMENT 'Название поселка, улицы и т.п.',
@@ -58,7 +73,7 @@ CREATE TABLE IF NOT EXISTS `address` (
   FOREIGN KEY (`id_district`) REFERENCES `district`(`id`)
 ) DEFAULT CHARSET=utf8 COMMENT='Хранит информацию о адресе жилья';
 
-CREATE TABLE IF NOT EXISTS `housing_characteristics` (
+CREATE TABLE `housing_characteristics` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id характеристик',
   `type_housing` int(10) unsigned NOT NULL COMMENT 'FK типа жилья',
   `group_house_type` int(10) unsigned NOT NULL COMMENT 'FK типа дома',
@@ -80,7 +95,7 @@ CREATE TABLE IF NOT EXISTS `housing_characteristics` (
   FOREIGN KEY (`address`) REFERENCES `address`(`id`)
 ) DEFAULT CHARSET=utf8 COMMENT='Хранит информацию о адресе жилья';
 
-CREATE TABLE IF NOT EXISTS `rooms` (
+CREATE TABLE `rooms` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id комнаты',
   `id_house` int(10) unsigned NOT NULL COMMENT 'FK характеристик',
   `square_rooms` decimal(5,2) unsigned NOT NULL COMMENT 'Площадь комнаты',
@@ -88,13 +103,13 @@ CREATE TABLE IF NOT EXISTS `rooms` (
   FOREIGN KEY (`id_house`) REFERENCES `housing_characteristics`(`id`)
 ) DEFAULT CHARSET=utf8 COMMENT='Хранит информацию о комнатах';
 
-CREATE TABLE IF NOT EXISTS `type_request` (
+CREATE TABLE `type_request` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id типа заявки',
   `type_request` varchar(100) NOT NULL COMMENT 'Наименование типа заявки',
   PRIMARY KEY (`id`)
 ) DEFAULT CHARSET=utf8 COMMENT='Хранит информацию о типах заявок';
 
-CREATE TABLE IF NOT EXISTS `request` (
+CREATE TABLE `request` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID заявки',
   `id_client` int(10) unsigned NOT NULL COMMENT 'FK клиента, подавшего заявкy',
   `date_req` date NOT NULL default "0000-00-00" COMMENT 'Дата создания заявки',
@@ -105,7 +120,7 @@ CREATE TABLE IF NOT EXISTS `request` (
   FOREIGN KEY (`type_req`) REFERENCES `type_request`(`id`)
 ) DEFAULT CHARSET=utf8 COMMENT='Хранит информацию о заявках';
 
-CREATE TABLE IF NOT EXISTS `deal` (
+CREATE TABLE `deal` (
   `number_contract` int(10) unsigned NOT NULL COMMENT 'Номер договора',
   `id_req1` int(10) unsigned  NOT NULL COMMENT 'FK заявки 1',
   `id_req2` int(10) unsigned COMMENT 'FK заявки 2 (если она существует)',
@@ -118,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `deal` (
   FOREIGN KEY (`id_req2`) REFERENCES `request`(`id`)
 ) DEFAULT CHARSET=utf8 COMMENT='Хранит информацию о заключенной посредством агенства сделке';
 
-CREATE TABLE IF NOT EXISTS `subject_req` (
+CREATE TABLE `subject_req` (
   `id_req` int(10) unsigned NOT NULL COMMENT 'FK заявки',
   `id_apartment` int(10) unsigned NOT NULL COMMENT 'FK жилья',
   `desire_cost` bigint unsigned NOT NULL COMMENT 'Желаемая стоимость продажи',
