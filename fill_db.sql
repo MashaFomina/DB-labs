@@ -91,7 +91,7 @@ INSERT INTO `rooms` (`id_house`,`square_rooms`) VALUES
 
 INSERT INTO `request` (`id_client`,`date_req`,`type_req`,`commission`,`id_realtor`) VALUES
 (1,"2015-10-15",1,100000,1),
-(1,"2015-10-15",2,null,1),
+(1,"2015-10-15",2,60000,1),
 (2,"2015-10-15",2,70000,2),
 (3,"2015-10-15",2,50000,3),
 (4,"2015-10-15",2,null,4),

@@ -3,7 +3,7 @@
 DROP VIEW IF EXISTS volume_sum_deals_in_districts;
 CREATE VIEW volume_sum_deals_in_districts
 AS SELECT CASE WHEN (dist1.district IS NULL) THEN dist2.district ELSE dist1.district END as district_of_deals,
-SUM((CASE WHEN (req2.commission IS NULL) THEN 0 ELSE req2.commission END)+(CASE WHEN (req1.commission IS NULL) THEN 0 ELSE req1.commission END)) as volume_daels
+SUM((CASE WHEN (req2.commission IS NULL) THEN 0 ELSE req2.commission END)+(CASE WHEN (req1.commission IS NULL) THEN 0 ELSE req1.commission END)) as volume_daels, count(*) as count_deals
 
 FROM deal as bis
 LEFT JOIN request as req1
