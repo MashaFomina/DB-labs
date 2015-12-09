@@ -1,4 +1,4 @@
-#удалим из таблицы address записи, с которыми не связано ни одно жильё
+#удалим из таблицы district записи, с которыми не связано ни одно жильё
 DROP PROCEDURE IF EXISTS realty_agency.del_district_not_connected;
 
 DELIMITER //
