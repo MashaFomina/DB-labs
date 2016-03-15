@@ -1,0 +1,36 @@
+CREATE TABLE `housing_characteristics_district_with_district` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id характеристик',
+  `type_housing` int(10) unsigned NOT NULL COMMENT 'FK типа жилья',
+  `group_house_type` int(10) unsigned NOT NULL COMMENT 'FK типа дома',
+  `station_metro` int(10) unsigned COMMENT 'FK станции метро',
+  `address` int(10) unsigned NOT NULL COMMENT 'FK адреса',
+   `district` varchar(100) NOT NULL COMMENT 'Название района',
+  `square_common` decimal(10,3) unsigned NOT NULL COMMENT 'Площадь общая',
+  `square_kitchen` decimal(5,2) unsigned COMMENT 'Площадь кухни',
+  `floor` tinyint unsigned NOT NULL COMMENT 'Номер этажа жилья',
+  `comment` text COMMENT 'Дополнительная информация',
+  `elevator` tinyint(1) NOT NULL default false COMMENT 'Показывает есть ли лифт',
+  `rubbish_chute` tinyint(1) NOT NULL default false COMMENT 'Показывает есть ли мусоропровод',
+  `shared_bathroom` tinyint(1) NOT NULL default false COMMENT 'Показывает разделенный ли санузел',
+  `completion date` date NOT NULL default "0000-00-00" COMMENT 'Срок сдачи в эксплуатацию',
+  `distance_metro` time NOT NULL default "00:00:00" COMMENT 'Удаленность от метро',
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`type_housing`) REFERENCES `type_housing`(`id`),
+  FOREIGN KEY (`group_house_type`) REFERENCES `group_house_type`(`id`),
+  FOREIGN KEY (`station_metro`) REFERENCES `station_metro`(`id`),
+  FOREIGN KEY (`address`) REFERENCES `address`(`id`)
+) DEFAULT CHARSET=utf8 COMMENT='Хранит информацию о адресе жилья';
+CREATE TABLE `request_with_reception` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID заявки',
+  `id_client` int(10) unsigned NOT NULL COMMENT 'FK клиента, подавшего заявкy',
+  `date_req` date NOT NULL default "0000-00-00" COMMENT 'Дата создания заявки',
+  `type_req` int(10) unsigned NOT NULL COMMENT 'FK тип заявки',
+  `notes` text COMMENT 'Примечания',
+  `id_realtor` int(10) unsigned NOT NULL COMMENT 'FK риэлтора',
+  `commission` bigint unsigned COMMENT 'Комиссия агенства',
+  `date_reception` date NOT NULL default "0000-00-00" COMMENT 'Дата выдачи денег',
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`id_client`) REFERENCES `person`(`id`),
+  FOREIGN KEY (`type_req`) REFERENCES `type_request`(`id`),
+  FOREIGN KEY (`id_realtor`) REFERENCES `realtor`(`id`)
+) DEFAULT CHARSET=utf8 COMMENT='Хранит информацию о заявках';
