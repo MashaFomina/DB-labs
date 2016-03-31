@@ -6,7 +6,7 @@ INNER JOIN commission_realtors as cr
 on req.id=cr.id_req
 INNER JOIN subject_req as s_r
 ON s_r.id_req=(CASE WHEN (req.type_req = 1 OR req.type_req = 3) THEN 
-(SELECT id_req1 FROM deal WHERE id_req2=req.id UNION SELECT id_req2 FROM deal WHERE id_req1=req.id)
+(SELECT id_req1 FROM deal WHERE id_req2=req.id AND id_req1 IS NOT NULL UNION SELECT id_req2 FROM deal WHERE id_req1=req.id AND id_req2 IS NOT NULL)
 ELSE req.id END)
 INNER JOIN housing_characteristics as h_c
 ON s_r.id_apartment=h_c.id
